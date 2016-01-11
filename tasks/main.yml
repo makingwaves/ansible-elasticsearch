@@ -39,16 +39,16 @@
 - include: shield.yml
   when: (elasticsearch_shield_enabled is defined and elasticsearch_shield_enabled == "true")
 
-
-
-- name: make sure config lang dir exists if elasticsearch_lang_config_files
-  file: path=/etc/elasticsearch/config/lang/ state=directory
-  when: (elasticsearch_lang_config_files is defined)
-
-- name: copy in language files
-  synchronize: src={{elasticsearch_lang_config_files }} dest=/etc/elasticsearch/config/lang/
-  when: (elasticsearch_lang_config_files is defined)
+- name: copy in config files
+  synchronize: src={{elasticsearch_config_files }} dest=/etc/elasticsearch/ owner=no group=no
+  tags: elastic_config_files
+  when: (elasticsearch_config_files is defined)
   notify: Restart Elasticsearch
+
+- name: make sure config dir has correct permissions if elasticsearch_config_files
+  file: path=/etc/elasticsearch/config/ state=directory mode=0755 recurse=yes owner={{elasticsearch_user}} group={{elasticsearch_group}}
+  when: (elasticsearch_config_files is defined)
+
 
 
 # Always run post-run tasks
