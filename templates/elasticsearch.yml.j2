@@ -662,8 +662,9 @@ indices.cache.filter.size: {{ elasticsearch_indices_cache_filter_size }}
 
 ################################### Dynamic Scripting #####################################
 
-{% if elasticsearch_script_disable_dynamic is defined %}
-script.disable_dynamic: {{ elasticsearch_script_disable_dynamic }}
+{% if elasticsearch_script_dynamic is defined %}
+script.inline: {{ elasticsearch_script_dynamic}}
+script.indexed: {{ elasticsearch_script_dynamic}}
 {% endif %}
 
 ################################### CORS Settings #####################################
