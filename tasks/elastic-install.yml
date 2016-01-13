@@ -36,6 +36,9 @@
     path="/usr/share/elasticsearch/lib/elasticsearch-{{ elasticsearch_version }}.jar"
   register: installed_version
 
+
+- debug: var=installed_version
+
 - name: elastic-install | Try to stop elasticsearch if running
   service:
     name=elasticsearch
@@ -81,7 +84,6 @@
      - "{{ elasticsearch_home_dir }}"
      - "{{ elasticsearch_log_dir }}"
      - "{{ elasticsearch_data_dir }}"
-     - "{{ elasticsearch_work_dir }}"
      - "{{ elasticsearch_conf_dir }}"
 
 - name: Configure limits max_open_files
